@@ -1,0 +1,64 @@
+  <div class="col-xs-12">
+    <div class="col-xs-12 employee-add-tab">
+      <% page_title = @census_employee.persisted? ? "Update "+@census_employee.full_name.titleize : 'Add New Employee' %>
+      <h1><%= page_title %></h1>
+      <% if @census_employee.errors.any? %>
+        <div class="alert alert-error">
+          <h4>
+            <%= "#{pluralize(@census_employee.errors.size, "error")} prohibited this person from being saved:" %>
+          </h4>
+          <ul>
+            <% @census_employee.errors.delete(:address) %>
+            <% @census_employee.errors.full_messages.each do |msg| %>
+              <li> <%= msg %> </li>
+            <% end %>
+            <% @census_employee.census_dependents.each do |dep| %>
+              <% dep.errors.full_messages.each do |msg| %>
+                <li> <%= msg %> </li>
+              <% end %>
+            <% end %>
+            <% @census_employee.address.errors.full_messages.each do |msg| %>
+              <li> <%= msg %> </li>
+            <% end %>
+            <% @census_employee.benefit_group_assignments.each do |bg| %>
+              <% bg.errors.full_messages.each do |msg| %>
+                <li> <%= msg %> </li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <% page_title = @census_employee.persisted? ? "Update "+@census_employee.full_name.titleize : 'Add New Employee' %>
+
+        <% unless @census_employee.persisted? %>
+        <h4 class="pull-left">
+          Enter employee information. You'll select a benefit group later. Select 'Add Family Member' if applicable. When you're finished, select 'Create Employee' to continue.
+        </h4>
+        <% end %>
+
+          <%= render 'member_fields', f: f %>
+          <%= render 'shared/census_employee_fields', {f: f} %>
+          <br/>
+          <%= f.fields_for :address, @census_employee.address, errors: {}, fieldset: false do |address| %>
+            <%= render 'address_fields', f: address %>
+          <% end %>
+          <br/>
+
+          <%= f.fields_for :email, @census_employee.email, errors: {}, fieldset: false do |email| %>
+            <%= render 'email_fields', f: email %>
+          <% end %>
+          <br/>
+
+          <%= render 'shared/add_dependents', {f: f} %>
+
+
+
+          <div class="key-btn">
+            <% button_label = @census_employee.persisted? ? 'Update Employee' : 'Create Employee' %>
+            <button class="btn btn-primary btn-br pull-right" type="submit">
+              <%= "#{button_label}".html_safe %>
+            </button>
+          </div>
+
+    </div>
+    </div>

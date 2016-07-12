@@ -1,0 +1,10 @@
+<% content_for :navigation do %>
+  <%= render 'navigation' %>
+<% end %>
+
+
+<% if @person.has_active_employee_role? %>
+  <%= render 'employee_broker' %>
+<% elsif @person.has_consumer_role? %>
+  <%= render 'consumer_broker' %>
+<% end %>

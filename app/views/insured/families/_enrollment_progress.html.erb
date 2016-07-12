@@ -1,0 +1,32 @@
+<% step = (defined? step) ? step.to_i : 0 %>
+<%
+percent_complete = 0
+percent_complete = (step == 1) ? 33 : ((step == 2) ? 66 : ((step == 3) ? 100 : 0))
+%>
+
+
+<h4 class="ttc wsn">
+  <%= hbx_enrollment.aasm_state.titleize %>
+</h4>
+
+<!-- Hide Train stops temporarily (Refs #3725) -->
+<!--
+
+<label><%= percent_complete %>% Complete</label>
+<ul class="list-unstyled progress-wrapper hidden-xs">
+  <li class="<%= add_progress_class(1, step) %>">
+    Applied
+    <span class="circle-progress"></span>
+    <div class="vertical-line-progress"></div>
+  </li>
+  <li class="<%= add_progress_class(2, step) %>">
+    Sent to Carrier
+    <span class="circle-progress"></span>
+    <div class="vertical-line-progress"></div>
+  </li>
+  <li class="<%= add_progress_class(3, step) %>">
+    Enrolled
+    <span class="circle-progress"></span>
+    <div class="vertical-line-progress"></div>
+  </li>
+</ul>-->
