@@ -131,6 +131,7 @@ GEM
       timers (>= 4.1.1)
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
+    chronic (0.10.2)
     cliver (0.3.2)
     coderay (1.1.1)
     coercible (1.0.0)
@@ -495,6 +496,8 @@ GEM
     websocket-driver (0.6.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    whenever (0.9.4)
+      chronic (>= 0.6.3)
     wicked_pdf (1.0.4)
     wkhtmltopdf-binary-edge (0.12.2.1)
     xpath (2.0.0)
@@ -581,8 +584,9 @@ DEPENDENCIES
   warden
   watir
   web-console (= 2.3.0)
+  whenever
   wicked_pdf (= 1.0.4)
   wkhtmltopdf-binary-edge (~> 0.12.2.1)
 
 BUNDLED WITH
-   1.11.2
+   1.12.4
