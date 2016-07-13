@@ -5,3 +5,10 @@
 		<%= render 'shared/tab_panel' %>
 	</div>
 </div>
+
+<script>
+  $(document).on('click', '.show_employee', function(){
+    var id = $(this).attr('id');
+    $('.employee_'+id).toggle('show');
+  });
+</script>

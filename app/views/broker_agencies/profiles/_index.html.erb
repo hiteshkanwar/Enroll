@@ -20,13 +20,29 @@
         </thead>
         <% @broker_agency_profiles.each do |broker_agency_profile| %>
           <tbody>
-            <td><%= link_to broker_agency_profile.legal_name, broker_agencies_profile_path(broker_agency_profile) %></td>
-            <td><%= broker_agency_profile.dba %></td>
-            <td><%= broker_agency_profile.fein %></td>
-            <td><%= broker_agency_profile.entity_kind.titleize %></td>
-            <td><%= broker_agency_profile.market_kind.titleize %></td>
-            <td><%= link_to 'Send Secure Message'.html_safe,
-            new_broker_agencies_inbox_path(id: broker_agency_profile.id, profile_id: @profile._id), class: "btn btn-default", remote: true %></td>
+            <tr>
+              <td>
+                <%= link_to broker_agency_profile.legal_name, broker_agencies_profile_path(broker_agency_profile) %><br>
+                <%= link_to 'Employee', '#', class: 'show_employee', id: broker_agency_profile.id.to_s %>
+              </td>
+              <td><%= broker_agency_profile.dba %></td>
+              <td><%= broker_agency_profile.fein %></td>
+              <td><%= broker_agency_profile.entity_kind.titleize %></td>
+              <td><%= broker_agency_profile.market_kind.titleize %></td>
+              <td><%= link_to 'Send Secure Message'.html_safe,
+              new_broker_agencies_inbox_path(id: broker_agency_profile.id, profile_id: @profile._id), class: "btn btn-default", remote: true %></td>
+            </tr>
+            <tbody class='employee_<%= broker_agency_profile.id.to_s %>' style='display:none;'>
+              <% broker_agency_profile.organization.employer_profile.employee_roles.collect(&:person).each_with_index do |employee, index| %>
+                <tr>
+                  <td><%= ('<b>E '+index.to_s+':</b>').html_safe %> <%= employee.first_name + employee.last_name %></td>
+                  <td><%= employee.gender %></td>
+                  <td><%= employee.dob %></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              <% end %>
+            </tbody>
           </tbody>
         <% end %>
       <% else %>
