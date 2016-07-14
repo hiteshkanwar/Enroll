@@ -232,6 +232,10 @@ class BrokerAgencies::ProfilesController < ApplicationController
     redirect_to broker_agencies_profile_path(id: broker_agency_profile_id)
   end
 
+  def get_employee
+    @employee = Person.find(params[:employee_id])
+  end
+
   private
 
   def find_hbx_profile
@@ -291,4 +295,5 @@ class BrokerAgencies::ProfilesController < ApplicationController
     policy = ::AccessPolicies::GeneralAgencyProfile.new(current_user)
     policy.authorize_assign(self, @broker_agency_profile)
   end
+
 end

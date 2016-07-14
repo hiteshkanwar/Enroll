@@ -1,0 +1,1 @@
+$('.employee_<%= params[:id] %>').html("<%= escape_javascript render partial: 'employee', locals: {employee: @employee} %>").show()

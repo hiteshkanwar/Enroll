@@ -1097,3 +1097,18 @@ $(document).on('click', '#address_info + span.form-action', function(){
     $('.mailing-div .label-floatlabel').hide();
   }
 });
+
+$(document).on('change', '.show_employee', function(){
+  var id = $(this).attr('id');
+  var employee_id = $(this).val();
+  if (employee_id.length > 0){
+    $.ajax({
+      data: { id:id, employee_id:employee_id },
+      method: 'get',
+      url: '/broker_agencies/profiles/get_employee'
+    })
+  }
+  else {
+    $('.employee_'+id).html('');
+  }
+});

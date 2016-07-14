@@ -587,4 +587,8 @@ module ApplicationHelper
       return "2. You have 0 non-owner employees on your roster"
     end
   end
+
+  def employee_list broker_agency_profile
+    broker_agency_profile.organization.employer_profile.employee_roles.collect(&:person).collect{|person| [person.last_name,person.id.to_s]}.unshift(['Select Employee',nil])
+  end
 end

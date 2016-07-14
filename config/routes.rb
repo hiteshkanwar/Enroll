@@ -250,6 +250,7 @@ Rails.application.routes.draw do
         get :messages
         get :staff_index
         get :agency_messages
+        get :get_employee
       end
       member do
         get :general_agency_index
