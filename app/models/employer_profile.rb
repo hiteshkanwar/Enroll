@@ -140,7 +140,7 @@ class EmployerProfile
 
   def active_broker
     if active_broker_agency_account
-      Person.where("broker_role._id" => BSON::ObjectId.from_string(active_broker_agency_account.writing_agent_id)).first
+      Person.where("broker_role._id" => BSON::ObjectId.from_string(active_broker_agency_account.writing_agent_id)).first rescue nil
     end
   end
 

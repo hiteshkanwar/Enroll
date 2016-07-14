@@ -23,9 +23,9 @@
             <tr>
               <td>
                 <%= link_to broker_agency_profile.legal_name, broker_agencies_profile_path(broker_agency_profile) %><br>
-                <% if broker_agency_profile.organization.employer_profile.present? %>
-                  <%= select_tag 'Select Employee', options_for_select(employee_list(broker_agency_profile)), class: 'show_employee', id: broker_agency_profile.id.to_s %>
-                <% end %>
+                <%# if broker_agency_profile.organization.employer_profile.present? %>
+                  <%#= select_tag 'Select Employee', options_for_select(employee_list(broker_agency_profile)), class: 'show_employee', id: broker_agency_profile.id.to_s %>
+                <%# end %>
               </td>
               <td><%= broker_agency_profile.dba %></td>
               <td><%= broker_agency_profile.fein %></td>
@@ -34,10 +34,10 @@
               <td><%= link_to 'Send Secure Message'.html_safe,
               new_broker_agencies_inbox_path(id: broker_agency_profile.id, profile_id: @profile._id), class: "btn btn-default", remote: true %></td>
             </tr>
-            <% if broker_agency_profile.organization.employer_profile.present? %>
-              <tbody class='employee_<%= broker_agency_profile.id.to_s %>' style='display:none;'>
-              </tbody>
-            <% end %>
+            <%# if broker_agency_profile.organization.employer_profile.present? %>
+              <!-- <tbody class='employee_<%= broker_agency_profile.id.to_s %>' style='display:none;'>
+              </tbody> -->
+            <%# end %>
           </tbody>
         <% end %>
       <% else %>
