@@ -32,7 +32,7 @@
               <td><%= broker_agency_profile.entity_kind.titleize %></td>
               <td><%= broker_agency_profile.market_kind.titleize %></td>
               <td><%= link_to 'Send Secure Message'.html_safe,
-              new_broker_agencies_inbox_path(id: broker_agency_profile.id, profile_id: @profile._id), class: "btn btn-default", remote: true %></td>
+              new_broker_agencies_inbox_path(id: broker_agency_profile.id, profile_id: @profile.try(:_id)), class: "btn btn-default", remote: true %></td>
             </tr>
             <%# if broker_agency_profile.organization.employer_profile.present? %>
               <!-- <tbody class='employee_<%= broker_agency_profile.id.to_s %>' style='display:none;'>
