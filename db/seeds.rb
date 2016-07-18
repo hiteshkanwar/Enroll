@@ -156,25 +156,27 @@ puts "*"*80
 
 # Create random organization/employer/employee data
 
-(0..4).each do |org_index|
-  organization = Organization.new(hbx_id: SecureRandom.hex(16), legal_name: Forgery('name').company_name, fein: SecureRandom.hex(4),is_active: 'true')
-  organization.save(validate: false)
+(0..4).each_with_index do |org_index, index|
+	organization = Organization.new(hbx_id: SecureRandom.hex(16), legal_name: Forgery('name').company_name, fein: SecureRandom.hex(4),is_active: 'true')
+	organization.save(validate: false)
 
-  broker_agency_profile = organization.build_broker_agency_profile(entity_kind: "s_corporation", market_kind: "both", languages_spoken: ["en"], working_hours: true, accept_new_clients: true, aasm_state: "is_approved")
-  broker_agency_profile.save(validate: false)
-
-  employer_profile = organization.build_employer_profile(entity_kind: "s_corporation", aasm_state: "applicant", profile_source: "self_serve")
-  employer_profile.save(validate: false)
+	broker_agency_profile = organization.build_broker_agency_profile(entity_kind: "s_corporation", market_kind: "both", languages_spoken: ["en"], working_hours: true, accept_new_clients: true, aasm_state: "is_approved")
+	broker_agency_profile.save(validate: false)
 end
 
-broker_profiles = Organization.all.collect(&:broker_agency_profile).compact
-employer_profiles = Organization.all.collect(&:employer_profile).compact
+Organization.all.collect(&:broker_agency_profile).each_with_index do |broker, index|
+  (0..9).each do |employer_index|
+    organization = Organization.new(hbx_id: SecureRandom.hex(16), legal_name: Forgery('name').company_name, fein: SecureRandom.hex(4),is_active: 'true')
+    organization.save(validate: false)
+  
+    employer_profile = organization.build_employer_profile(entity_kind: "s_corporation", aasm_state: "applicant", profile_source: "self_serve")
+    employer_profile.save(validate: false)
 
-broker_profiles.each_with_index do |profile_index|
-  employer_profiles.each do |employer|
-    employer.broker_agency_accounts.build(broker_agency_profile: profile_index, writing_agent_id: nil, start_on: Date.today).save
+    employer_profile.broker_agency_accounts.build(broker_agency_profile: broker, writing_agent_id: nil, start_on: Date.today).save
   end
 end
+
+employer_profiles = Organization.all.collect(&:employer_profile).compact
 
 employer_profiles.each_with_index do |employer, index|
   (1..20).each do |index|
