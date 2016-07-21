@@ -63,6 +63,14 @@ class BrokerAgencyProfile
   scope :inactive,    ->{ any_in(aasm_state: ["is_rejected", "is_suspended", "is_closed"]) }
 
 
+  def self.time_rand from = Time.now-20.year, to = Time.now-15.year
+    Time.at(from + rand * (to.to_f - from.to_f))
+  end
+
+  def self.time_rand_for_hire from = Time.now-10.year, to = Time.now-1.year
+    Time.at(from + rand * (to.to_f - from.to_f))
+  end
+
   # has_many employers
   def employer_clients
     return unless (MARKET_KINDS - ["individual"]).include?(market_kind)

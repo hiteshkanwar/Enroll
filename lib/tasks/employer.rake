@@ -1,13 +1,13 @@
 namespace :broker do
   desc "Import Database"
   task :employer => :environment do
-
+    Organization.all.destroy_all if Organization.all.count > 0
     (0..4).each_with_index do |org_index, index|
       organization = Organization.new(hbx_id: SecureRandom.hex(16), legal_name: Forgery('name').company_name, fein: SecureRandom.hex(4),is_active: 'true')
       organization.save(validate: false)
 
-      broker_agency_profile = organization.build_broker_agency_profile(entity_kind: "s_corporation", market_kind: "both", languages_spoken: ["en"], working_hours: true, accept_new_clients: true, aasm_state: "is_approved")
-      broker_agency_profile.save(validate: false)
+      broker_agency_profile_data = organization.build_broker_agency_profile(entity_kind: "s_corporation", market_kind: "both", languages_spoken: ["en"], working_hours: true, accept_new_clients: true, aasm_state: "is_approved")
+      broker_agency_profile_data.save(validate: false)
     end
 
     Organization.all.collect(&:broker_agency_profile).each_with_index do |broker, index|
@@ -17,8 +17,7 @@ namespace :broker do
       
         employer_profile = organization.build_employer_profile(entity_kind: "s_corporation", aasm_state: "applicant", profile_source: "self_serve")
         employer_profile.save(validate: false)
-
-        employer_profile.broker_agency_accounts.build(broker_agency_profile: broker, writing_agent_id: nil, start_on: Date.today).save
+          employer_profile.broker_agency_accounts.build(broker_agency_profile: broker, writing_agent_id: nil, start_on: Date.today).save 
       end
     end
 
@@ -26,7 +25,7 @@ namespace :broker do
 
     employer_profiles.each_with_index do |employer, index|
       (1..20).each do |index|
-        employee = employer.census_employees.new(first_name: Forgery('name').first_name, last_name: Forgery('name').last_name,dob: Date.today, hired_on: Date.today+20.year,gender: Forgery('personal').gender, _type: "CensusEmployee",aasm_state: "eligible")
+        employee = employer.census_employees.new(first_name: Forgery('name').first_name, last_name: Forgery('name').last_name,dob: BrokerAgencyProfile.time_rand.to_date, hired_on: BrokerAgencyProfile.time_rand_for_hire.to_date,gender: Forgery('personal').gender, _type: "CensusEmployee",aasm_state: "eligible")
         employee.save(validate: false)
       end
     end
