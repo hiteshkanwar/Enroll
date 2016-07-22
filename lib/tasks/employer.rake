@@ -24,6 +24,9 @@ namespace :broker do
     employer_profiles = Organization.all.collect(&:employer_profile).compact
 
     employer_profiles.each_with_index do |employer, index|
+      plan_year = employer.plan_years.build(start_on: BrokerAgencyProfile.time_rand_for_hire.to_date,end_on: BrokerAgencyProfile.time_rand_for_hire.to_date+1.year,open_enrollment_start_on: Date.today,open_enrollment_end_on: Date.today+1.year)
+      plan_year.save(validate: false)
+      plan_year.benefit_groups.build(title: 'test').save(validate: false)
       (1..20).each do |index|
         employee = employer.census_employees.new(first_name: Forgery('name').first_name, last_name: Forgery('name').last_name,dob: BrokerAgencyProfile.time_rand.to_date, hired_on: BrokerAgencyProfile.time_rand_for_hire.to_date,gender: Forgery('personal').gender, _type: "CensusEmployee",aasm_state: "eligible")
         employee.save(validate: false)
